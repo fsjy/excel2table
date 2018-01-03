@@ -19,7 +19,7 @@ public class DefaultExecutorImpl extends AbstractExecutorImpl implements Executo
     Writer consoleWriterImpl;
 
     @Override
-    protected boolean begin(Bulk b) {
+    public boolean begin(Bulk b) {
 
         // 输出<table>
         writeLn(b, " ".concat(Const.HTML_TABLE_START));

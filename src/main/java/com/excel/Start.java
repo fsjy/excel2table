@@ -3,8 +3,6 @@ package com.excel;
 import com.excel.entity.Rule;
 import com.excel.processor.Processor;
 import com.excel.tookit.C;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 

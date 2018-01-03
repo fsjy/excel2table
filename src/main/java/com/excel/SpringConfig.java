@@ -7,7 +7,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @Configuration
-@ComponentScan({"com.excel.processor.*", "com.excel.core.*",  "com.excel.aop.*"})
+@ComponentScan({"com.excel.processor.*", "com.excel.core.*", "com.excel.aop.*"})
 public class SpringConfig {
 
 //    /**
