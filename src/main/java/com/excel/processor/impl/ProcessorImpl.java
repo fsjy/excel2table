@@ -8,16 +8,18 @@ import com.excel.processor.Processor;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 
+@Service
 public class ProcessorImpl implements Processor {
 
     @Autowired
     PreExecutor preExecutor;
 
     @Autowired
-    Executor executor;
+    Executor defaultExecutorImpl;
 
 
     /**
@@ -34,7 +36,7 @@ public class ProcessorImpl implements Processor {
 
         RawTable rawTable = preExecutor.execute(book);
 
-        Result result = executor.execute(rawTable);
+        Result result = defaultExecutorImpl.execute(rawTable);
 
     }
 }

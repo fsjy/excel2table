@@ -23,7 +23,6 @@
     </properties>
 
 
-
     <dependencies>
 
         <dependency>
@@ -35,6 +34,17 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+
+
+            <exclusions>
+
+                <!-- 不使用logback的log方式-->
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+
         </dependency>
 
 
@@ -63,9 +73,9 @@
 
         <!-- 不采用slf4j的任何桥接方式 -->
         <!--<dependency>-->
-            <!--<groupId>org.slf4j</groupId>-->
-            <!--<artifactId>slf4j-log4j12</artifactId>-->
-            <!--<version>1.7.25</version>-->
+        <!--<groupId>org.slf4j</groupId>-->
+        <!--<artifactId>slf4j-log4j12</artifactId>-->
+        <!--<version>1.7.25</version>-->
         <!--</dependency>-->
 
 

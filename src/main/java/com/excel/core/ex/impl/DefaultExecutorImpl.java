@@ -2,6 +2,7 @@ package com.excel.core.ex.impl;
 
 
 import com.excel.Const;
+import com.excel.core.ex.AbstractExecutorImpl;
 import com.excel.core.ex.Executor;
 import com.excel.core.ex.toolkit.ExecutorHelper;
 import com.excel.core.writer.Writer;
@@ -9,17 +10,19 @@ import com.excel.core.writer.tookit.WriterHelper;
 import com.excel.entity.Bulk;
 import com.excel.entity.CaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class DefaultExecutorImpl extends AbstractExecutorImpl implements Executor {
 
     @Autowired
-    Writer defaultWriter;
+    Writer consoleWriterImpl;
 
     @Override
     protected boolean begin(Bulk b) {
 
         // 输出<table>
-        write(b, " ".concat(Const.HTML_TABLE_START));
+        writeLn(b, " ".concat(Const.HTML_TABLE_START));
         return true;
     }
 
@@ -34,7 +37,7 @@ public class DefaultExecutorImpl extends AbstractExecutorImpl implements Executo
     protected boolean beforeOneLine(Bulk b) {
 
         // 输出<tr>
-        write(b, WriterHelper.addTab(Const.HTML_TR_START, 1));
+        writeLn(b, WriterHelper.addTab(Const.HTML_TR_START, 1));
         return true;
     }
 
@@ -126,9 +129,9 @@ public class DefaultExecutorImpl extends AbstractExecutorImpl implements Executo
 
         // 输出<th> or <td>
         if (b.getRow() == 0) {
-            write(b, Const.HTML_TH_END);
+            writeLn(b, Const.HTML_TH_END);
         } else {
-            write(b, Const.HTML_TD_END);
+            writeLn(b, Const.HTML_TD_END);
         }
         return true;
     }
@@ -144,7 +147,7 @@ public class DefaultExecutorImpl extends AbstractExecutorImpl implements Executo
     protected boolean afterOneLine(Bulk b) {
 
         // 输出</tr>
-        write(b, WriterHelper.addTab(Const.HTML_TR_END, 1));
+        writeLn(b, WriterHelper.addTab(Const.HTML_TR_END, 1));
         return true;
     }
 
@@ -159,13 +162,13 @@ public class DefaultExecutorImpl extends AbstractExecutorImpl implements Executo
     protected boolean end(Bulk b) {
 
         // 输出</table>
-        write(b, Const.HTML_TABLE_END);
+        writeLn(b, Const.HTML_TABLE_END);
         return true;
     }
 
     @Override
     protected Writer getWriter() {
-        return this.defaultWriter;
+        return this.consoleWriterImpl;
     }
 
 

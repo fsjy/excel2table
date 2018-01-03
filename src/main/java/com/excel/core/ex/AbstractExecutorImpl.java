@@ -1,4 +1,4 @@
-package com.excel.core.ex.impl;
+package com.excel.core.ex;
 
 import com.excel.core.ex.Executor;
 import com.excel.core.ex.toolkit.ExecutorHelper;
@@ -140,6 +140,11 @@ public class AbstractExecutorImpl implements Executor {
     protected void write(Bulk b, String setString) {
         B(b, setString);
         getWriter().write(b);
+    }
+
+    protected void writeLn(Bulk b, String setString) {
+        B(b, setString);
+        getWriter().writeLn(b);
     }
 
     protected Writer getWriter() {

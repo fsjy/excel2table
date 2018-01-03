@@ -5,7 +5,9 @@ import com.excel.entity.RawTable;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PreExecutorImpl implements PreExecutor {
 
     @Override
