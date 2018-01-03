@@ -40,7 +40,7 @@ public abstract class AbstractTag implements Tag {
      * @return tag的html代码
      */
     @Override
-    public String getHtmlTagBody() {
+    public String drawHtml() {
 
         return TagHelper.makeHtmlTag(getTagName(), this.attributes);
 

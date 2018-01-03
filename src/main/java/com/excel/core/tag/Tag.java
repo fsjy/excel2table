@@ -32,6 +32,6 @@ public interface Tag {
      *
      * @return tag的html代码
      */
-    String getHtmlTagBody();
+    String drawHtml();
 
 }

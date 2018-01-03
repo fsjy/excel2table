@@ -67,7 +67,7 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
             if (caEntity == null || caEntity.isNormal()) {
 
                 logger.debug("No mergedRegion. Using default write method");
-                write(b, WriterHelper.addTab(TD.get().getHtmlTagBody(), 2));
+                write(b, WriterHelper.addTab(TD.get().drawHtml(), 2));
                 return true;
             } else {
 
@@ -87,7 +87,7 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
 //                            .concat(Const.HTML_RIGHT_BRACKET);
                     String writeOut = TD.get()
                             .setRowspan(caEntity.getRowSpan())
-                            .getHtmlTagBody();
+                            .drawHtml();
                     logger.debug("First Rowspan is : {}", writeOut);
 
                     write(b, WriterHelper.addTab(writeOut, 2));
