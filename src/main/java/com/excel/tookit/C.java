@@ -2,6 +2,7 @@ package com.excel.tookit;
 
 import com.excel.SpringConfig;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 /**
  * 一切为了从简，不想看到那么长的代码
@@ -32,6 +33,7 @@ public class C {
      */
     private void init() {
         this.context = new AnnotationConfigApplicationContext(SpringConfig.class);
+
     }
 
     public <T> T g(Class<T> t) {

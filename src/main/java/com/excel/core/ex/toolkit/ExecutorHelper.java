@@ -21,8 +21,6 @@ public class ExecutorHelper {
 
 
     /**
-     *
-     *
      * @param bulk
      */
     public static void formatNumber(Bulk bulk) {
@@ -115,16 +113,27 @@ public class ExecutorHelper {
 
             if (row >= firstRow && row <= lastRow) {
                 if (column >= firstColumn && column <= lastColumn) {
+
+
                     caEntity = new CaEntity();
                     caEntity.setFirstRow(firstRow);
                     caEntity.setLastRow(lastRow);
                     caEntity.setFirstColumn(firstColumn);
                     caEntity.setLastColumn(lastColumn);
+
                     if (lastRow != firstRow) {
                         caEntity.setRowSpan(true);
                     }
                     if (row == firstRow) {
                         caEntity.setFirstRowSpan(true);
+                    }
+
+                    if (firstColumn != lastColumn) {
+                        caEntity.setColSpan(true);
+                    }
+
+                    if (column == firstColumn) {
+                        caEntity.setFirstColSpan(true);
                     }
                     return caEntity;
                 }

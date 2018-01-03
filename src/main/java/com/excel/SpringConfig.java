@@ -1,14 +1,25 @@
 package com.excel;
 
 
+import com.excel.aop.ExecutorAspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
-@EnableAspectJAutoProxy(proxyTargetClass = true)
+
 @Configuration
-@ComponentScan({"com.excel.processor.*", "com.excel.core.*", "com.excel.aop.*"})
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+@ComponentScan({"com.excel.processor.*", "com.excel.core.*"})
 public class SpringConfig {
+
+
+    @Bean
+    public ExecutorAspect executorAspect() {
+        return new ExecutorAspect();
+    }
+
 
 //    /**
 //     * 执行excel解析过程的Processor的实例

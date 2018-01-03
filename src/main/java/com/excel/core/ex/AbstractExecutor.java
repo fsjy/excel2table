@@ -9,7 +9,7 @@ import com.excel.entity.Result;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Sheet;
 
-public class AbstractExecutorImpl implements Executor {
+public abstract class AbstractExecutor implements Executor {
 
 
     /**
@@ -86,7 +86,7 @@ public class AbstractExecutorImpl implements Executor {
         return getResult(bulk);
     }
 
-    protected boolean begin(Bulk bulk) {
+    public boolean begin(Bulk bulk) {
         return true;
     }
 
@@ -95,8 +95,6 @@ public class AbstractExecutorImpl implements Executor {
     protected boolean beforeLineStep(Bulk bulk) {
         return true;
     }
-
-    ;
 
 
     protected boolean lineStepping(Bulk bulk) {

@@ -10,17 +10,32 @@ public class CaEntity {
 
     private boolean isFirstRowSpan = false;
 
+    private boolean isFirstColSpan = false;
+
     private boolean isColSpan = false;
 
     private boolean isRowSpan = false;
 
 
     public boolean isNormal() {
-        if (isFirstRowSpan || isColSpan || isRowSpan) {
+        if (isFirstRowSpan || isFirstColSpan || isColSpan || isRowSpan) {
             return false;
         }
 
         return true;
+    }
+
+    public int getRowSpan() {
+        return this.lastRow - this.firstRow + 1;
+    }
+
+
+    public boolean isFirstColSpan() {
+        return isFirstColSpan;
+    }
+
+    public void setFirstColSpan(boolean firstColSpan) {
+        isFirstColSpan = firstColSpan;
     }
 
     public boolean isFirstRowSpan() {

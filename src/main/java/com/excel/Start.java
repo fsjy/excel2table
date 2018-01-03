@@ -2,6 +2,7 @@ package com.excel;
 
 import com.excel.entity.Rule;
 import com.excel.processor.Processor;
+import com.excel.processor.impl.ProcessorImpl;
 import com.excel.tookit.C;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;

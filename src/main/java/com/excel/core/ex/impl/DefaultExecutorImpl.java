@@ -2,30 +2,34 @@ package com.excel.core.ex.impl;
 
 
 import com.excel.Const;
-import com.excel.core.ex.AbstractExecutorImpl;
+import com.excel.core.ex.AbstractExecutor;
 import com.excel.core.ex.Executor;
 import com.excel.core.ex.toolkit.ExecutorHelper;
+import com.excel.core.tag.tagEntity.TD;
 import com.excel.core.writer.Writer;
 import com.excel.core.writer.tookit.WriterHelper;
 import com.excel.entity.Bulk;
 import com.excel.entity.CaEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DefaultExecutorImpl extends AbstractExecutorImpl implements Executor {
+public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
+
+
+    Logger logger = LoggerFactory.getLogger(DefaultExecutorImpl.class);
 
     @Autowired
     Writer consoleWriterImpl;
 
-    @Override
     public boolean begin(Bulk b) {
 
         // 输出<table>
         writeLn(b, " ".concat(Const.HTML_TABLE_START));
         return true;
     }
-
 
     /**
      * 一行开始时的处理
@@ -60,33 +64,46 @@ public class DefaultExecutorImpl extends AbstractExecutorImpl implements Executo
             CaEntity caEntity = ExecutorHelper.isMergedRegion(b);
 
             // 没有合并
-            if (caEntity == null) {
-                write(b, WriterHelper.addTab(Const.HTML_TD_START, 2));
+            if (caEntity == null || caEntity.isNormal()) {
+
+                logger.debug("No mergedRegion. Using default write method");
+                write(b, WriterHelper.addTab(TD.get().getHtmlTagBody(), 2));
                 return true;
             } else {
 
-                // 有合并的单元格的场合
-                if (caEntity.isNormal()) {
+
+
+
+                // 如果是rowspan的第一个
+                if (caEntity.isFirstRowSpan()) {
+
+                    logger.debug("CaEntity is mergedRegion. Will write <td rowspan= ... ");
+                    // 拼接<td rowpspan="999">
+
+//
+//                    String writeOut = Const.HTML_TD_ROWSPAN_START
+//                            .concat(String.valueOf(caEntity.getLastRow() - caEntity.getFirstRow() + 1))
+//                            .concat("\"")
+//                            .concat(Const.HTML_RIGHT_BRACKET);
+                    String writeOut = TD.get()
+                            .addAttribute(Const.HTML_TD_ROWSPAN, String.valueOf(caEntity.getRowSpan()))
+                            .getHtmlTagBody();
+                    logger.debug("First Rowspan is : {}", writeOut);
+
+                    write(b, WriterHelper.addTab(writeOut, 2));
+
                     return true;
                 } else {
-                    // 如果是rowspan的第一个
-                    if (caEntity.isFirstRowSpan()) {
-                        // 拼接<td rowpspan="999">
-                        String writeOut = Const.HTML_TD_ROWSPAN_START
-                                .concat(String.valueOf(caEntity.getLastRow() - caEntity.getFirstRow() + 1))
-                                .concat("\"")
-                                .concat(Const.HTML_RIGHT_BRACKET);
+                    // 遇到非第一个的rowspan则跳过 不打出<td>标签
+                    if (caEntity.isRowSpan()) {
 
-                        write(b, WriterHelper.addTab(writeOut, 2));
-
-                        return true;
-                    } else {
-                        // 遇到非第一个的rowspan则跳过 不打出<td>标签
-                        if (caEntity.isRowSpan()) {
-                            return false;
-                        }
+                        logger.debug("CaEntity is in rowspan, and will skip writing tags.");
                         return false;
                     }
+
+
+                    logger.debug("CaEntity is in rowspan, and will skip writing tags.");
+                    return false;
                 }
             }
         }

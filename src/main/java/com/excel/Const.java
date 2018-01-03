@@ -27,8 +27,16 @@ public class Const {
     public static final String HTML_TD_END = "</td>";
 
     public static final String HTML_TD_ROWSPAN_START = "<td rowspan=\"";
-    public static final String HTML_RIGHT_BRACKET = ">";
 
+
+    public static final String HTML_LEFT_BRACKET = "<";
+    public static final String HTML_RIGHT_BRACKET = ">";
+    public static final String HTML_TAG_SPACE = " ";
+    public static final String HTML_TAG_EQUALS = "=";
+    public static final String HTML_TAG_DOUBLE_QUOTATION = "\"";
+
+    public static final String HTML_TAG_TD = "td";
+    public static final String HTML_TD_ROWSPAN = "rowspan";
 
 
 }
