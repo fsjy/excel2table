@@ -37,6 +37,7 @@ public class Const {
 
     public static final String HTML_TAG_TD = "td";
     public static final String HTML_TD_ROWSPAN = "rowspan";
+    public static final String HTML_TD_COLSPAN = "colspan";
 
 
 }

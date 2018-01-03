@@ -86,7 +86,7 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
 //                            .concat("\"")
 //                            .concat(Const.HTML_RIGHT_BRACKET);
                     String writeOut = TD.get()
-                            .addAttribute(Const.HTML_TD_ROWSPAN, String.valueOf(caEntity.getRowSpan()))
+                            .setRowspan(caEntity.getRowSpan())
                             .getHtmlTagBody();
                     logger.debug("First Rowspan is : {}", writeOut);
 
