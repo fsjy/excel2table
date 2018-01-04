@@ -28,10 +28,36 @@ public interface Tag {
     Tag addAttribute(String attr, String value);
 
     /**
-     * 获得tag的html的代码
+     * 获得tag的html的代码(Start)
      *
-     * @return tag的html代码
+     * @return tag的html代码 <xx>
      */
-    String drawHtml();
+    String drawStartHtml();
+
+    /**
+     * 获得tag的html的代码(End)
+     *
+     * @return tag的html代码 </xx>
+     */
+    String drawEndHtml();
+
+
+    /**
+     * 隐藏tag，不输出
+     */
+    Tag hide();
+
+    /**
+     * 显示tag，可输出
+     */
+    Tag display();
+
+    /**
+     * 是否隐藏tag
+     *
+     * @return 是 or 否
+     */
+    boolean isHidden();
+
 
 }

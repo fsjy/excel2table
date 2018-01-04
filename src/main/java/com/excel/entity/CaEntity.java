@@ -29,6 +29,10 @@ public class CaEntity {
         return this.lastRow - this.firstRow + 1;
     }
 
+    public int getColSpan() {
+        return this.lastColumn - this.firstColumn + 1;
+    }
+
 
     public boolean isFirstColSpan() {
         return isFirstColSpan;

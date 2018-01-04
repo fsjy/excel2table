@@ -5,11 +5,15 @@ import com.excel.Const;
 import com.excel.core.ex.AbstractExecutor;
 import com.excel.core.ex.Executor;
 import com.excel.core.ex.toolkit.ExecutorHelper;
+import com.excel.core.tag.Tag;
+import com.excel.core.tag.tagEntity.TABLE;
 import com.excel.core.tag.tagEntity.TD;
+import com.excel.core.tag.tagEntity.TH;
+import com.excel.core.tag.tagEntity.TR;
+import com.excel.core.tagwrapper.TagWrapper;
 import com.excel.core.writer.Writer;
 import com.excel.core.writer.tookit.WriterHelper;
 import com.excel.entity.Bulk;
-import com.excel.entity.CaEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +28,13 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
     @Autowired
     Writer consoleWriterImpl;
 
+    @Autowired
+    TagWrapper tDWrapperImpl;
+
     public boolean begin(Bulk b) {
 
         // 输出<table>
-        writeLn(b, " ".concat(Const.HTML_TABLE_START));
+        writeLn(b, " ".concat(TABLE.get().drawStartHtml()));
         return true;
     }
 
@@ -41,7 +48,7 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
     protected boolean beforeOneLine(Bulk b) {
 
         // 输出<tr>
-        writeLn(b, WriterHelper.addTab(Const.HTML_TR_START, 1));
+        writeLn(b, WriterHelper.addTab(TR.get().drawStartHtml(), 1));
         return true;
     }
 
@@ -56,56 +63,92 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
 
         // 输出<th> or <td>
         if (b.getRow() == 0) {
-            write(b, WriterHelper.addTab(Const.HTML_TH_START, 2));
+
+            // 暂时可以不使用包装类来修饰TH标签
+            // thWrapperImpl.wrap(null, TH.get());
+            write(b, WriterHelper.addTab(TH.get().drawStartHtml(), 2));
             return true;
         } else {
 
-            // 取得合并区域内容
-            CaEntity caEntity = ExecutorHelper.isMergedRegion(b);
+            // 取得合并区域内容 使用wrapper进行包装
+            Tag tag = tDWrapperImpl.wrap(ExecutorHelper.isMergedRegion(b), TD.get());
 
-            // 没有合并
-            if (caEntity == null || caEntity.isNormal()) {
-
-                logger.debug("No mergedRegion. Using default write method");
-                write(b, WriterHelper.addTab(TD.get().drawHtml(), 2));
+            if (tag.isHidden() == false) {
+                write(b, WriterHelper.addTab(tag.drawStartHtml(), 2));
                 return true;
             } else {
+                return false;
+            }
+
+//            // 没有合并
+//            if (caEntity == null || caEntity.isNormal()) {
+//
+//                logger.debug("No mergedRegion. Using default write method");
+//                write(b, WriterHelper.addTab(TD.get().drawHtml(), 2));
+//                return true;
+//            } else {
+//
+//                // 如果是rowspan项目
+//                if (caEntity.isRowSpan()) {
+//
+//                    logger.debug("CaEntity is rowspan.");
+//                    // 判断是否为第一个
+//                    if (caEntity.isFirstRowSpan()) {
+//
+//                        logger.debug("CaEntity is first rowspan, will execute <td rowspan= ... . Return true to go on");
+//
+//
+//                        return true;
+//
+//                    } else {
+//
+//                    }
+//
+//                }
+//
+//                // 如果是colspan项目
+//                if (caEntity.isColSpan()) {
+//
+//                    // 判断是否为第一个colspan
+//                    if (caEntity.isFirstColSpan()) {
+//
+//                    } else {
+//
+//                    }
+//
+//                }
 
 
-
-
-                // 如果是rowspan的第一个
-                if (caEntity.isFirstRowSpan()) {
-
-                    logger.debug("CaEntity is mergedRegion. Will write <td rowspan= ... ");
-                    // 拼接<td rowpspan="999">
+//                // 如果是rowspan的第一个
+//                if (caEntity.isFirstRowSpan()) {
+//
+//                    logger.debug("CaEntity is mergedRegion. Will write <td rowspan= ... ");
+//                    // 拼接<td rowpspan="999">
+//
+//                    String writeOut = TD.get()
+//                            .setRowspan(caEntity.getRowSpan())
+//                            .drawHtml();
+//                    logger.debug("First Rowspan is : {}", writeOut);
+//
+//                    write(b, WriterHelper.addTab(writeOut, 2));
+//
+//                    return true;
+//                } else {
+//                    // 遇到非第一个的rowspan则跳过 不打出<td>标签
+//                    if (caEntity.isRowSpan()) {
+//
+//                        logger.debug("CaEntity is in rowspan, and will skip writing tags.");
+//                        return false;
+//                    }
+//
+//
+//                    logger.debug("CaEntity is in rowspan, and will skip writing tags.");
+//                    return false;
+//                }
 
 //
-//                    String writeOut = Const.HTML_TD_ROWSPAN_START
-//                            .concat(String.valueOf(caEntity.getLastRow() - caEntity.getFirstRow() + 1))
-//                            .concat("\"")
-//                            .concat(Const.HTML_RIGHT_BRACKET);
-                    String writeOut = TD.get()
-                            .setRowspan(caEntity.getRowSpan())
-                            .drawHtml();
-                    logger.debug("First Rowspan is : {}", writeOut);
-
-                    write(b, WriterHelper.addTab(writeOut, 2));
-
-                    return true;
-                } else {
-                    // 遇到非第一个的rowspan则跳过 不打出<td>标签
-                    if (caEntity.isRowSpan()) {
-
-                        logger.debug("CaEntity is in rowspan, and will skip writing tags.");
-                        return false;
-                    }
-
-
-                    logger.debug("CaEntity is in rowspan, and will skip writing tags.");
-                    return false;
-                }
-            }
+//            }
+//        }
         }
     }
 
@@ -146,9 +189,9 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
 
         // 输出<th> or <td>
         if (b.getRow() == 0) {
-            writeLn(b, Const.HTML_TH_END);
+            writeLn(b, TH.get().drawEndHtml());
         } else {
-            writeLn(b, Const.HTML_TD_END);
+            writeLn(b, TD.get().drawEndHtml());
         }
         return true;
     }
@@ -164,7 +207,7 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
     protected boolean afterOneLine(Bulk b) {
 
         // 输出</tr>
-        writeLn(b, WriterHelper.addTab(Const.HTML_TR_END, 1));
+        writeLn(b, WriterHelper.addTab(TR.get().drawEndHtml(), 1));
         return true;
     }
 
@@ -179,7 +222,7 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
     protected boolean end(Bulk b) {
 
         // 输出</table>
-        writeLn(b, Const.HTML_TABLE_END);
+        writeLn(b, TABLE.get().drawEndHtml());
         return true;
     }
 

@@ -6,8 +6,10 @@ import com.excel.core.tag.Tag;
 
 public class TD extends AbstractTag {
 
+    private String name = Const.HTML_TAG_TD;
     private int rowspan;
     private int colspan;
+
 
     /**
      * 获得Tag的名称，如td,tr
@@ -16,7 +18,7 @@ public class TD extends AbstractTag {
      */
     @Override
     public String getTagName() {
-        return Const.HTML_TAG_TD;
+        return name;
     }
 
     public static TD get() {

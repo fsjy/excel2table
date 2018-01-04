@@ -1,5 +1,7 @@
 package com.excel.core.tag;
 
+import com.excel.Const;
+import com.excel.core.tag.tagEntity.TD;
 import com.excel.core.tag.tookit.TagHelper;
 
 import java.util.HashMap;
@@ -11,6 +13,8 @@ import java.util.Map;
 public abstract class AbstractTag implements Tag {
 
     private Map<String, String> attributes = new HashMap<>();
+    private boolean isHidden = false;
+
 
     /**
      * 获得Tag中所有的属性与内容
@@ -40,9 +44,47 @@ public abstract class AbstractTag implements Tag {
      * @return tag的html代码
      */
     @Override
-    public String drawHtml() {
+    public String drawStartHtml() {
 
         return TagHelper.makeHtmlTag(getTagName(), this.attributes);
 
+    }
+
+    /**
+     * 获得tag的html的代码(End)
+     *
+     * @return tag的html代码 </xx>
+     */
+    @Override
+    public String drawEndHtml() {
+        return Const.HTML_LEFT_BRACKET               // <
+                .concat(Const.HTML_TAG_SLASH)        // /
+                .concat(getTagName())                // xx
+                .concat(Const.HTML_RIGHT_BRACKET);   // >
+    }
+
+    @Override
+    public Tag hide() {
+        this.isHidden = true;
+        return this;
+    }
+
+    /**
+     * 是否隐藏tag
+     *
+     * @return 是 or 否
+     */
+    @Override
+    public boolean isHidden() {
+        return this.isHidden;
+    }
+
+    /**
+     * 显示tag，可输出
+     */
+    @Override
+    public Tag display() {
+        this.isHidden = false;
+        return this;
     }
 }
