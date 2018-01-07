@@ -99,11 +99,7 @@ public class Excel2html {
     /**
      * 获取每个单元格的数据
      *
-     * @param cell   单元格对象
-     * @param rowNum 第几行
-     * @param index  该行第几个
-     * @param book   主要用于关闭流
-     * @param isKey  是否为键：true-是，false-不是。 如果解析Json键，值为空时报错；如果不是Json键，值为空不报错
+     * @param cell 单元格对象
      * @return
      * @throws IOException
      */
@@ -122,6 +118,16 @@ public class Excel2html {
             if (val.contains("E")) {
                 val = val.split("E")[0].replace(".", "");
             }
+
+            if (cell.getCellStyle().getDataFormatString().contains("%")) {
+                // Detect Percent Values
+                Double value = cell.getNumericCellValue() * 100;
+
+                val = String.valueOf(value).concat("%");
+                //System.out.println("Percent value found = " + value.toString() +"%");
+            }
+
+
             return val;
         }
 
