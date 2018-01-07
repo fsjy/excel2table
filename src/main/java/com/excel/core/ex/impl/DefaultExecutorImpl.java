@@ -79,76 +79,6 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
             } else {
                 return false;
             }
-
-//            // 没有合并
-//            if (caEntity == null || caEntity.isNormal()) {
-//
-//                logger.debug("No mergedRegion. Using default write method");
-//                write(b, WriterHelper.addTab(TD.get().drawHtml(), 2));
-//                return true;
-//            } else {
-//
-//                // 如果是rowspan项目
-//                if (caEntity.isRowSpan()) {
-//
-//                    logger.debug("CaEntity is rowspan.");
-//                    // 判断是否为第一个
-//                    if (caEntity.isFirstRowSpan()) {
-//
-//                        logger.debug("CaEntity is first rowspan, will execute <td rowspan= ... . Return true to go on");
-//
-//
-//                        return true;
-//
-//                    } else {
-//
-//                    }
-//
-//                }
-//
-//                // 如果是colspan项目
-//                if (caEntity.isColSpan()) {
-//
-//                    // 判断是否为第一个colspan
-//                    if (caEntity.isFirstColSpan()) {
-//
-//                    } else {
-//
-//                    }
-//
-//                }
-
-
-//                // 如果是rowspan的第一个
-//                if (caEntity.isFirstRowSpan()) {
-//
-//                    logger.debug("CaEntity is mergedRegion. Will write <td rowspan= ... ");
-//                    // 拼接<td rowpspan="999">
-//
-//                    String writeOut = TD.get()
-//                            .setRowspan(caEntity.getRowSpan())
-//                            .drawHtml();
-//                    logger.debug("First Rowspan is : {}", writeOut);
-//
-//                    write(b, WriterHelper.addTab(writeOut, 2));
-//
-//                    return true;
-//                } else {
-//                    // 遇到非第一个的rowspan则跳过 不打出<td>标签
-//                    if (caEntity.isRowSpan()) {
-//
-//                        logger.debug("CaEntity is in rowspan, and will skip writing tags.");
-//                        return false;
-//                    }
-//
-//
-//                    logger.debug("CaEntity is in rowspan, and will skip writing tags.");
-//                    return false;
-//                }
-
-//
-//            }
-//        }
         }
     }
 
@@ -165,13 +95,15 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
 
         // 输出内容
 
-        if (cellString.startsWith(Const.CONTENT_TASK_LISTS)) {
+        if (cellString.startsWith(Const.CONTENT_TASK_LISTS)
+                || cellString.startsWith(Const.CONTENT_TASK_LISTS_OVER)) {
             System.out.println();
         }
 
         write(b, cellString.replace(".0", ""));
 
-        if (cellString.startsWith(Const.CONTENT_TASK_LISTS)) {
+        if (cellString.startsWith(Const.CONTENT_TASK_LISTS)
+                || cellString.startsWith(Const.CONTENT_TASK_LISTS_OVER)) {
             System.out.println();
             System.out.println();
         }

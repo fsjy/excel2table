@@ -4,6 +4,7 @@ public class Const {
 
 
     public static final String CONTENT_TASK_LISTS = "* [ ]";
+    public static final String CONTENT_TASK_LISTS_OVER = "* [x]";
 
     public static final String CONVERT_TO_MARKDOWN = "MarkDown";
 
