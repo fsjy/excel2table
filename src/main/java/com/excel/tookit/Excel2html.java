@@ -4,10 +4,7 @@ import com.excel.core.ex.toolkit.ExecutorHelper;
 import com.excel.entity.CaEntity;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -110,23 +107,14 @@ public class Excel2html {
      * @return
      * @throws IOException
      */
-    public static String getValue(Cell cell, int rowNum, int index, Workbook book, boolean isKey) throws IOException {
+    public static String getValue(Cell cell) {
 
-        // 空白或空
-        if (cell == null || cell.getCellType() == Cell.CELL_TYPE_BLANK) {
-            if (isKey) {
-                book.close();
-                throw new NullPointerException(String.format("the key on row %s index %s is null ", ++rowNum, ++index));
-            } else {
-                return "";
-            }
-        }
 
         // 0. 数字 类型
         if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
-            if (HSSFDateUtil.isCellDateFormatted(cell)) {
+            if (DateUtil.isCellDateFormatted(cell)) {
                 Date date = cell.getDateCellValue();
-                DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 return df.format(date);
             }
             String val = cell.getNumericCellValue() + "";
@@ -141,9 +129,7 @@ public class Excel2html {
         if (cell.getCellType() == Cell.CELL_TYPE_STRING) {
             String val = cell.getStringCellValue();
             if (val == null || val.trim().length() == 0) {
-                if (book != null) {
-                    book.close();
-                }
+
                 return "";
             }
             return val.trim();
@@ -151,7 +137,7 @@ public class Excel2html {
 
         // 2. 公式 CELL_TYPE_FORMULA
         if (cell.getCellType() == Cell.CELL_TYPE_FORMULA) {
-            return cell.getStringCellValue();
+            return cell.toString();
         }
 
         // 4. 布尔值 CELL_TYPE_BOOLEAN
@@ -173,7 +159,6 @@ public class Excel2html {
 
         return stringBuffer.append(s).toString();
     }
-
 
 
 }

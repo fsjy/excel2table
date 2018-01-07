@@ -14,6 +14,7 @@ import com.excel.core.tagwrapper.TagWrapper;
 import com.excel.core.writer.Writer;
 import com.excel.core.writer.tookit.WriterHelper;
 import com.excel.entity.Bulk;
+import com.excel.tookit.Excel2html;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,8 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
         }
     }
 
+
+
     /**
      * 处理cell过程中
      *
@@ -91,7 +94,7 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
     @Override
     protected boolean lineStepping(Bulk b) {
 
-        String cellString = b.getCell().toString();
+        String cellString = Excel2html.getValue(b.getCell());
 
         // 输出内容
 
