@@ -32,6 +32,9 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
     @Autowired
     TagWrapper tDWrapperImpl;
 
+    @Autowired
+    TagWrapper tHWrapperImpl;
+
     public boolean begin(Bulk b) {
 
         // 输出<table>
@@ -65,24 +68,26 @@ public class DefaultExecutorImpl extends AbstractExecutor implements Executor {
         // 输出<th> or <td>
         if (b.getRow() == 0) {
 
-            // 暂时可以不使用包装类来修饰TH标签
-            // thWrapperImpl.wrap(null, TH.get());
-            write(b, WriterHelper.addTab(TH.get().drawStartHtml(), 2));
-            return true;
+            return executeWrapper(TH.get(), b);
         } else {
 
             // 取得合并区域内容 使用wrapper进行包装
-            Tag tag = tDWrapperImpl.wrap(ExecutorHelper.isMergedRegion(b), TD.get());
-
-            if (tag.isHidden() == false) {
-                write(b, WriterHelper.addTab(tag.drawStartHtml(), 2));
-                return true;
-            } else {
-                return false;
-            }
+            return executeWrapper(TD.get(), b);
         }
     }
 
+    private boolean executeWrapper(Tag tag, Bulk b) {
+
+        Tag tagNew = tDWrapperImpl.wrap(ExecutorHelper.isMergedRegion(b), tag);
+
+        if (tagNew.isHidden() == false) {
+            write(b, WriterHelper.addTab(tagNew.drawStartHtml(), 2));
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 
 
     /**

@@ -3,6 +3,7 @@ package com.excel.core.tagwrapper.impl;
 import com.excel.core.tag.Tag;
 import com.excel.core.tag.tagEntity.TD;
 import com.excel.core.tag.tagEntity.TH;
+import com.excel.core.tagwrapper.AbstractColRowSpanWrapper;
 import com.excel.core.tagwrapper.TagWrapper;
 import com.excel.entity.CaEntity;
 import org.slf4j.Logger;
@@ -14,16 +15,10 @@ import org.springframework.stereotype.Service;
  *
  * @author darcula
  */
-@Service
-public class THWrapperImpl implements TagWrapper<Object> {
+@Service("tHWrapperImpl")
+public class THWrapperImpl extends AbstractColRowSpanWrapper {
 
     Logger log = LoggerFactory.getLogger(THWrapperImpl.class);
 
-    @Override
-    public Tag wrap(Object object, Tag tag) {
 
-        TH th = (TH) tag;
-        return th;
-
-    }
 }

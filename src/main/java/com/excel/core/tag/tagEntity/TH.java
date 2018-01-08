@@ -1,9 +1,10 @@
 package com.excel.core.tag.tagEntity;
 
 import com.excel.Const;
+import com.excel.core.tag.AbstractColRowSpanTag;
 import com.excel.core.tag.AbstractTag;
 
-public class TH extends AbstractTag {
+public class TH extends AbstractColRowSpanTag {
 
     private String name = Const.HTML_TAG_TH;
 
