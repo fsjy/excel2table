@@ -99,6 +99,11 @@ public class ExecutorHelper {
      */
     public static CaEntity isMergedRegion(Bulk bulk) {
 
+        // 无合并的场合直接返回
+        if (bulk.getCellRangeAddressList() == null) {
+            return null;
+        }
+
         CaEntity caEntity = null;
         int row = bulk.getRow();
         int column = bulk.getColumn();
